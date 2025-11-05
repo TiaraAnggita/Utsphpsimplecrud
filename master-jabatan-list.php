@@ -5,16 +5,16 @@ include_once 'config/class-master.php';
 $master = new MasterData();
 if(isset($_GET['status'])){
 	if($_GET['status'] == 'inputsuccess'){
-		echo "<script>alert('Data provinsi berhasil ditambahkan.');</script>";
+		echo "<script>alert('Data jabatan berhasil ditambahkan.');</script>";
 	} else if($_GET['status'] == 'editsuccess'){
-		echo "<script>alert('Data provinsi berhasil diubah.');</script>";
+		echo "<script>alert('Data jabatan berhasil diubah.');</script>";
 	} else if($_GET['status'] == 'deletesuccess'){
-		echo "<script>alert('Data provinsi berhasil dihapus.');</script>";
+		echo "<script>alert('Data jabatan berhasil dihapus.');</script>";
 	} else if($_GET['status'] == 'deletefailed'){
-		echo "<script>alert('Gagal menghapus data provinsi. Silakan coba lagi.');</script>";
+		echo "<script>alert('Gagal menghapus data jabatan. Silakan coba lagi.');</script>";
 	}
 }
-$dataProvinsi = $master->getProvinsi();
+$dataJabatan = $master->getJabatan();
 
 ?>
 <!doctype html>
@@ -37,12 +37,12 @@ $dataProvinsi = $master->getProvinsi();
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-sm-6">
-								<h3 class="mb-0">Data Provinsi</h3>
+								<h3 class="mb-0">Data Jabatan Pegawai</h3>
 							</div>
 							<div class="col-sm-6">
 								<ol class="breadcrumb float-sm-end">
 									<li class="breadcrumb-item"><a href="index.php">Beranda</a></li>
-									<li class="breadcrumb-item active" aria-current="page">Master Provinsi</li>
+									<li class="breadcrumb-item active" aria-current="page">Master Jabatan</li>
 								</ol>
 							</div>
 						</div>
@@ -55,7 +55,7 @@ $dataProvinsi = $master->getProvinsi();
 							<div class="col-12">
 								<div class="card">
 									<div class="card-header">
-										<h3 class="card-title">Daftar Provinsi</h3>
+										<h3 class="card-title">Daftar Jabatan Pegawai</h3>
 										<div class="card-tools">
 											<button type="button" class="btn btn-tool" data-lte-toggle="card-collapse" title="Collapse">
 												<i data-lte-icon="expand" class="bi bi-plus-lg"></i>
@@ -71,24 +71,26 @@ $dataProvinsi = $master->getProvinsi();
 											<thead>
 												<tr>
 													<th>No</th>
+													<th>Kode</th>
 													<th>Nama</th>
 													<th class="text-center">Aksi</th>
 												</tr>
 											</thead>
 											<tbody>
 												<?php
-													if(count($dataProvinsi) == 0){
+													if(count($dataJabatan) == 0){
 													    echo '<tr class="align-middle">
-															<td colspan="3" class="text-center">Tidak ada data provinsi.</td>
+															<td colspan="4" class="text-center">Tidak ada data jabatan.</td>
 														</tr>';
 													} else {
-														foreach ($dataProvinsi as $index => $provinsi){
+														foreach ($dataJabatan as $index => $jabatan){
 															echo '<tr class="align-middle">
 																<td>'.($index + 1).'</td>
-																<td>'.$provinsi['nama'].'</td>
+																<td>'.$jabatan['id'].'</td>
+																<td>'.$jabatan['nama'].'</td>
 																<td class="text-center">
-																	<button type="button" class="btn btn-sm btn-warning me-1" onclick="window.location.href=\'master-provinsi-edit.php?id='.$provinsi['id'].'\'"><i class="bi bi-pencil-fill"></i> Edit</button>
-																	<button type="button" class="btn btn-sm btn-danger" onclick="if(confirm(\'Yakin ingin menghapus data program studi ini?\')){window.location.href=\'proses/proses-provinsi.php?aksi=deleteprovinsi&id='.$provinsi['id'].'\'}"><i class="bi bi-trash-fill"></i> Hapus</button>
+																	<button type="button" class="btn btn-sm btn-warning me-1" onclick="window.location.href=\'master-jabatan-edit.php?id='.$jabatan['id'].'\'"><i class="bi bi-pencil-fill"></i> Edit</button>
+																	<button type="button" class="btn btn-sm btn-danger" onclick="if(confirm(\'Yakin ingin menghapus data jabatan ini?\')){window.location.href=\'proses/proses-jabatan.php?aksi=deletejabatan&id='.$jabatan['id'].'\'}"><i class="bi bi-trash-fill"></i> Hapus</button>
 																</td>
 															</tr>';
 														}
@@ -98,7 +100,7 @@ $dataProvinsi = $master->getProvinsi();
 										</table>
 									</div>
 									<div class="card-footer">
-										<button type="button" class="btn btn-primary" onclick="window.location.href='master-provinsi-input.php'"><i class="bi bi-plus-lg"></i> Tambah Provinsi</button>
+										<button type="button" class="btn btn-primary" onclick="window.location.href='master-jabatan-input.php'"><i class="bi bi-plus-lg"></i> Tambah Jabatan</button>
 									</div>
 								</div>
 							</div>

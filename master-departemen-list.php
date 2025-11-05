@@ -5,16 +5,16 @@ include_once 'config/class-master.php';
 $master = new MasterData();
 if(isset($_GET['status'])){
 	if($_GET['status'] == 'inputsuccess'){
-		echo "<script>alert('Data prodi berhasil ditambahkan.');</script>";
+		echo "<script>alert('Data departemen berhasil ditambahkan.');</script>";
 	} else if($_GET['status'] == 'editsuccess'){
-		echo "<script>alert('Data prodi berhasil diubah.');</script>";
+		echo "<script>alert('Data departemen berhasil diubah.');</script>";
 	} else if($_GET['status'] == 'deletesuccess'){
-		echo "<script>alert('Data prodi berhasil dihapus.');</script>";
+		echo "<script>alert('Data departemen berhasil dihapus.');</script>";
 	} else if($_GET['status'] == 'deletefailed'){
-		echo "<script>alert('Gagal menghapus data prodi. Silakan coba lagi.');</script>";
+		echo "<script>alert('Gagal menghapus data departemen. Silakan coba lagi.');</script>";
 	}
 }
-$dataProdi = $master->getProdi();
+$dataDepartemen = $master->getDepartemen();
 
 ?>
 <!doctype html>
@@ -37,12 +37,12 @@ $dataProdi = $master->getProdi();
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-sm-6">
-								<h3 class="mb-0">Data Program Studi</h3>
+								<h3 class="mb-0">Data Departemen</h3>
 							</div>
 							<div class="col-sm-6">
 								<ol class="breadcrumb float-sm-end">
 									<li class="breadcrumb-item"><a href="index.php">Beranda</a></li>
-									<li class="breadcrumb-item active" aria-current="page">Master Prodi</li>
+									<li class="breadcrumb-item active" aria-current="page">Master Departemen</li>
 								</ol>
 							</div>
 						</div>
@@ -55,7 +55,7 @@ $dataProdi = $master->getProdi();
 							<div class="col-12">
 								<div class="card">
 									<div class="card-header">
-										<h3 class="card-title">Daftar Program Studi</h3>
+										<h3 class="card-title">Daftar Departemen</h3>
 										<div class="card-tools">
 											<button type="button" class="btn btn-tool" data-lte-toggle="card-collapse" title="Collapse">
 												<i data-lte-icon="expand" class="bi bi-plus-lg"></i>
@@ -71,26 +71,24 @@ $dataProdi = $master->getProdi();
 											<thead>
 												<tr>
 													<th>No</th>
-													<th>Kode</th>
 													<th>Nama</th>
 													<th class="text-center">Aksi</th>
 												</tr>
 											</thead>
 											<tbody>
 												<?php
-													if(count($dataProdi) == 0){
+													if(count($dataDepartemen) == 0){
 													    echo '<tr class="align-middle">
-															<td colspan="4" class="text-center">Tidak ada data prodi.</td>
+															<td colspan="3" class="text-center">Tidak ada data departemen.</td>
 														</tr>';
 													} else {
-														foreach ($dataProdi as $index => $prodi){
+														foreach ($dataDepartemen as $index => $departemen){
 															echo '<tr class="align-middle">
 																<td>'.($index + 1).'</td>
-																<td>'.$prodi['id'].'</td>
-																<td>'.$prodi['nama'].'</td>
+																<td>'.$departemen['nama_departemen'].'</td>
 																<td class="text-center">
-																	<button type="button" class="btn btn-sm btn-warning me-1" onclick="window.location.href=\'master-prodi-edit.php?id='.$prodi['id'].'\'"><i class="bi bi-pencil-fill"></i> Edit</button>
-																	<button type="button" class="btn btn-sm btn-danger" onclick="if(confirm(\'Yakin ingin menghapus data program studi ini?\')){window.location.href=\'proses/proses-prodi.php?aksi=deleteprodi&id='.$prodi['id'].'\'}"><i class="bi bi-trash-fill"></i> Hapus</button>
+																	<button type="button" class="btn btn-sm btn-warning me-1" onclick="window.location.href=\'master-departemen-edit.php?id='.$departemen['id_departemen'].'\'"><i class="bi bi-pencil-fill"></i> Edit</button>
+																	<button type="button" class="btn btn-sm btn-danger" onclick="if(confirm(\'Yakin ingin menghapus data departemen ini?\')){window.location.href=\'proses/proses-departemen.php?aksi=deletedepartemen&id='.$departemen['id_departemen'].'\'}"><i class="bi bi-trash-fill"></i> Hapus</button>
 																</td>
 															</tr>';
 														}
@@ -100,7 +98,7 @@ $dataProdi = $master->getProdi();
 										</table>
 									</div>
 									<div class="card-footer">
-										<button type="button" class="btn btn-primary" onclick="window.location.href='master-prodi-input.php'"><i class="bi bi-plus-lg"></i> Tambah Prodi</button>
+										<button type="button" class="btn btn-primary" onclick="window.location.href='master-departemen-input.php'"><i class="bi bi-plus-lg"></i> Tambah Departemen</button>
 									</div>
 								</div>
 							</div>

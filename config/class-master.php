@@ -5,66 +5,66 @@ include_once 'db-config.php';
 
 class MasterData extends Database {
 
-    // Method untuk mendapatkan daftar program studi
-    public function getProdi(){
-        $query = "SELECT * FROM tb_prodi";
+    // Method untuk mendapatkan daftar jabatan pegawai
+    public function getJabatan(){
+        $query = "SELECT * FROM tb_jabatan";
         $result = $this->conn->query($query);
-        $prodi = [];
+        $jabatan = [];
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
-                $prodi[] = [
-                    'id' => $row['kode_prodi'],
-                    'nama' => $row['nama_prodi']
+                $jabatan[] = [
+                    'id' => $row['kode_jabatan'],
+                    'nama' => $row['nama_jabatan']
                 ];
             }
         }
-        return $prodi;
+        return $jabatan;
     }
 
-    // Method untuk mendapatkan daftar provinsi
-    public function getProvinsi(){
-        $query = "SELECT * FROM tb_provinsi";
+    // Method untuk mendapatkan daftar departemen
+    public function getDepartemen(){
+        $query = "SELECT * FROM tb_departemen";
         $result = $this->conn->query($query);
-        $provinsi = [];
+        $departemen = [];
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
-                $provinsi[] = [
-                    'id' => $row['id_provinsi'],
-                    'nama' => $row['nama_provinsi']
+                $departemen[] = [
+                    'id_departemen' => $row['id_departemen'],
+                    'nama_departemen' => $row['nama_departemen']
                 ];
             }
         }
-        return $provinsi;
+        return $departemen;
     }
 
-    // Method untuk mendapatkan daftar status mahasiswa menggunakan array statis
+    // Method untuk mendapatkan daftar status pegawai menggunakan array statis
     public function getStatus(){
         return [
-            ['id' => 1, 'nama' => 'Aktif'],
-            ['id' => 2, 'nama' => 'Tidak Aktif'],
+            ['id' => 1, 'nama' => 'Sudah Menikah'],
+            ['id' => 2, 'nama' => 'Belum Menikah'],
             ['id' => 3, 'nama' => 'Cuti'],
-            ['id' => 4, 'nama' => 'Lulus']
+            ['id' => 4, 'nama' => 'Aktif']
         ];
     }
 
-    // Method untuk input data program studi
-    public function inputProdi($data){
-        $kodeProdi = $data['kode'];
-        $namaProdi = $data['nama'];
-        $query = "INSERT INTO tb_prodi (kode_prodi, nama_prodi) VALUES (?, ?)";
+    // Method untuk input data jabatan pegawai
+    public function inputJabatan($data){
+        $kodeJabatan = $data['kode'];
+        $namaJabatan = $data['nama'];
+        $query = "INSERT INTO tb_jabatan (kode_jabatan, nama_jabatan) VALUES (?, ?)";
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
             return false;
         }
-        $stmt->bind_param("ss", $kodeProdi, $namaProdi);
+        $stmt->bind_param("ss", $kodeJabatan, $namaJabatan);
         $result = $stmt->execute();
         $stmt->close();
         return $result;
     }
 
-    // Method untuk mendapatkan data program studi berdasarkan kode
-    public function getUpdateProdi($id){
-        $query = "SELECT * FROM tb_prodi WHERE kode_prodi = ?";
+    // Method untuk mendapatkan data jabatan pegawai berdasarkan kode
+    public function getUpdateJabatan($id){
+        $query = "SELECT * FROM tb_jabatan WHERE kode_jabatan = ?";
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
             return false;
@@ -72,36 +72,36 @@ class MasterData extends Database {
         $stmt->bind_param("s", $id);
         $stmt->execute();
         $result = $stmt->get_result();
-        $prodi = null;
+        $jabatan = null;
         if($result->num_rows > 0){
             $row = $result->fetch_assoc();
-            $prodi = [
-                'id' => $row['kode_prodi'],
-                'nama' => $row['nama_prodi']
+            $jabatan = [
+                'id' => $row['kode_jabatan'],
+                'nama' => $row['nama_jabatan']
             ];
         }
         $stmt->close();
-        return $prodi;
+        return $jabatan;
     }
 
-    // Method untuk mengedit data program studi
-    public function updateProdi($data){
-        $kodeProdi = $data['kode'];
-        $namaProdi = $data['nama'];
-        $query = "UPDATE tb_prodi SET nama_prodi = ? WHERE kode_prodi = ?";
+    // Method untuk mengedit data jabatan pegawai
+    public function updateJabatan($data){
+        $kodeJabatan = $data['kode'];
+        $namaJabatan = $data['nama'];
+        $query = "UPDATE tb_jabatan SET nama_jabatan = ? WHERE kode_jabatan = ?";
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
             return false;
         }
-        $stmt->bind_param("ss", $namaProdi, $kodeProdi);
+        $stmt->bind_param("ss", $namaJabatan, $kodeJabatan);
         $result = $stmt->execute();
         $stmt->close();
         return $result;
     }
 
-    // Method untuk menghapus data program studi
-    public function deleteProdi($id){
-        $query = "DELETE FROM tb_prodi WHERE kode_prodi = ?";
+    // Method untuk menghapus data jabatan pegawai
+    public function deleteJabatan($id){
+        $query = "DELETE FROM tb_jabatan WHERE kode_jabatan = ?";
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
             return false;
@@ -112,23 +112,23 @@ class MasterData extends Database {
         return $result;
     }
 
-    // Method untuk input data provinsi
-    public function inputProvinsi($data){
-        $namaProvinsi = $data['nama'];
-        $query = "INSERT INTO tb_provinsi (nama_provinsi) VALUES (?)";
+    // Method untuk input data departemen
+    public function inputDepartemen($data){
+        $namaDepartemen = $data['nama'];
+        $query = "INSERT INTO tb_departemen (nama_departemen) VALUES (?)";
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
             return false;
         }
-        $stmt->bind_param("s", $namaProvinsi);
+        $stmt->bind_param("s", $namaDepartemen);
         $result = $stmt->execute();
         $stmt->close();
         return $result;
     }
 
-    // Method untuk mendapatkan data provinsi berdasarkan id
-    public function getUpdateProvinsi($id){
-        $query = "SELECT * FROM tb_provinsi WHERE id_provinsi = ?";
+    // Method untuk mendapatkan data departemen berdasarkan id
+    public function getUpdateDepartemen($id){
+        $query = "SELECT * FROM tb_departemen WHERE id_departemen = ?";
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
             return false;
@@ -136,36 +136,36 @@ class MasterData extends Database {
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $result = $stmt->get_result();
-        $provinsi = null;
+        $departemen = null;
         if($result->num_rows > 0){
             $row = $result->fetch_assoc();
-            $provinsi = [
-                'id' => $row['id_provinsi'],
-                'nama' => $row['nama_provinsi']
+            $departemen = [
+                'id' => $row['id_departemen'],
+                'nama' => $row['nama_departemen']
             ];
         }
         $stmt->close();
-        return $provinsi;
+        return $departemen;
     }
 
-    // Method untuk mengedit data provinsi
-    public function updateProvinsi($data){
-        $idProvinsi = $data['id'];
-        $namaProvinsi = $data['nama'];
-        $query = "UPDATE tb_provinsi SET nama_provinsi = ? WHERE id_provinsi = ?";
+    // Method untuk mengedit data departemen
+    public function updateDepartemen($data){
+        $idDepartemen = $data['id'];
+        $namaDepartemen = $data['nama'];
+        $query = "UPDATE tb_departemen SET nama_departemen = ? WHERE id_departemen = ?";
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
             return false;
         }
-        $stmt->bind_param("si", $namaProvinsi, $idProvinsi);
+        $stmt->bind_param("si", $namaDepartemen, $idDepartemen);
         $result = $stmt->execute();
         $stmt->close();
         return $result;
     }
 
-    // Method untuk menghapus data provinsi
-    public function deleteProvinsi($id){
-        $query = "DELETE FROM tb_provinsi WHERE id_provinsi = ?";
+    // Method untuk menghapus data departemen
+    public function deleteDepartemen($id){
+        $query = "DELETE FROM tb_departemen WHERE id_departemen = ?";
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
             return false;

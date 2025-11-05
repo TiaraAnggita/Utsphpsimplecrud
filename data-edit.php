@@ -1,20 +1,20 @@
 <?php 
 
 include_once 'config/class-master.php';
-include_once 'config/class-mahasiswa.php';
+include_once 'config/class-pegawai.php';
 $master = new MasterData();
-$mahasiswa = new Mahasiswa();
-// Mengambil daftar program studi, provinsi, dan status mahasiswa
-$prodiList = $master->getProdi();
-// Mengambil daftar provinsi
-$provinsiList = $master->getProvinsi();
-// Mengambil daftar status mahasiswa
+$pegawai = new Pegawai();
+// Mengambil daftar jabatan pegawai, departemen, dan status pegawai
+$jabatanList = $master->getJabatan();
+// Mengambil daftar jabatan
+$departemenList = $master->getDepartemen();
+// Mengambil daftar status pegawai
 $statusList = $master->getStatus();
-// Mengambil data mahasiswa yang akan diedit berdasarkan id dari parameter GET
-$dataMahasiswa = $mahasiswa->getUpdateMahasiswa($_GET['id']);
+// Mengambil data pegawai yang akan diedit berdasarkan id dari parameter GET
+$dataPegawai = $pegawai->getUpdatePegawai($_GET['id']);
 if(isset($_GET['status'])){
     if($_GET['status'] == 'failed'){
-        echo "<script>alert('Gagal mengubah data mahasiswa. Silakan coba lagi.');</script>";
+        echo "<script>alert('Gagal mengubah data pegawai. Silakan coba lagi.');</script>";
     }
 }
 ?>
@@ -38,7 +38,7 @@ if(isset($_GET['status'])){
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-sm-6">
-								<h3 class="mb-0">Edit Mahasiswa</h3>
+								<h3 class="mb-0">Edit Pegawai</h3>
 							</div>
 							<div class="col-sm-6">
 								<ol class="breadcrumb float-sm-end">
@@ -56,7 +56,7 @@ if(isset($_GET['status'])){
 							<div class="col-12">
 								<div class="card">
 									<div class="card-header">
-										<h3 class="card-title">Formulir Mahasiswa</h3>
+										<h3 class="card-title">Formulir Pegawai</h3>
 										<div class="card-tools">
 											<button type="button" class="btn btn-tool" data-lte-toggle="card-collapse" title="Collapse">
 												<i data-lte-icon="expand" class="bi bi-plus-lg"></i>
@@ -69,78 +69,78 @@ if(isset($_GET['status'])){
 									</div>
                                     <form action="proses/proses-edit.php" method="POST">
 									    <div class="card-body">
-                                            <input type="hidden" name="id" value="<?php echo $dataMahasiswa['id']; ?>">
+                                            <input type="hidden" name="id" value="<?php echo $dataPegawai['id']; ?>">
                                             <div class="mb-3">
-                                                <label for="nim" class="form-label">Nomor Induk Mahasiswa (NIM)</label>
-                                                <input type="number" class="form-control" id="nim" name="nim" placeholder="Masukkan NIM Mahasiswa" value="<?php echo $dataMahasiswa['nim']; ?>" required>
+                                                <label for="nik" class="form-label">Nomor Induk Kepegawaian (NIK)</label>
+                                                <input type="number" class="form-control" id="nik" name="nik" placeholder="Masukkan NIK Pegawai" value="<?php echo $dataPegawai['nik']; ?>" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="nama" class="form-label">Nama Lengkap</label>
-                                                <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Lengkap Mahasiswa" value="<?php echo $dataMahasiswa['nama']; ?>" required>
+                                                <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Lengkap Pegawai" value="<?php echo $dataPegawai['nama']; ?>" required>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="prodi" class="form-label">Program Studi</label>
-                                                <select class="form-select" id="prodi" name="prodi" required>
-                                                    <option value="" selected disabled>Pilih Program Studi</option>
+                                                <label for="jabatan" class="form-label">Jabatan Pegawai</label>
+                                                <select class="form-select" id="jabatan" name="jabatan" required>
+                                                    <option value="" selected disabled>Pilih Jabatan Pegawai</option>
                                                     <?php 
-                                                    // Iterasi daftar program studi dan menandai yang sesuai dengan data mahasiswa yang dipilih
-                                                    foreach ($prodiList as $prodi){
+                                                    // Iterasi daftar jabatan dan menandai yang sesuai dengan data pegawai yang dipilih
+                                                    foreach ($jabatanList as $jabatan){
                                                         // Menginisialisasi variabel kosong untuk menandai opsi yang dipilih
-                                                        $selectedProdi = "";
-                                                        // Mengecek apakah program studi saat ini sesuai dengan data mahasiswa
-                                                        if($dataMahasiswa['prodi'] == $prodi['id']){
+                                                        $selectedJabatan = "";
+                                                        // Mengecek apakah jabatan saat ini sesuai dengan data pegawai
+                                                        if($dataPegawai['jabatan'] == $jabatan['id']){
                                                             // Jika sesuai, tandai sebagai opsi yang dipilih
-                                                            $selectedProdi = "selected";
+                                                            $selectedJabatan = "selected";
                                                         }
-                                                        // Menampilkan opsi program studi dengan penanda yang sesuai
-                                                        echo '<option value="'.$prodi['id'].'" '.$selectedProdi.'>'.$prodi['nama'].'</option>';
+                                                        // Menampilkan opsi jabatan pegawai dengan penanda yang sesuai
+                                                        echo '<option value="'.$jabatan['id'].'" '.$selectedJabatan.'>'.$jabatan['nama'].'</option>';
                                                     }
                                                     ?>
                                                 </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="alamat" class="form-label">Alamat</label>
-                                                <textarea class="form-control" id="alamat" name="alamat" rows="3" placeholder="Masukkan Alamat Lengkap Sesuai KTP" required><?php echo $dataMahasiswa['alamat']; ?></textarea>
+                                                <textarea class="form-control" id="alamat" name="alamat" rows="3" placeholder="Masukkan Alamat Lengkap Sesuai KTP" required><?php echo $dataPegawai['alamat']; ?></textarea>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="provinsi" class="form-label">Provinsi</label>
-                                                <select class="form-select" id="provinsi" name="provinsi" required>
-                                                    <option value="" selected disabled>Pilih Provinsi</option>
+                                                <label for="departemen" class="form-label">Departemen</label>
+                                                <select class="form-select" id="departemen" name="departemen" required>
+                                                    <option value="" selected disabled>Pilih Departemen</option>
                                                     <?php
-                                                    // Iterasi daftar provinsi dan menandai yang sesuai dengan data mahasiswa yang dipilih
-                                                    foreach ($provinsiList as $provinsi){
+                                                    // Iterasi daftar departemen dan menandai yang sesuai dengan data pegawai yang dipilih
+                                                    foreach ($departemenList as $departemen){
                                                         // Menginisialisasi variabel kosong untuk menandai opsi yang dipilih
-                                                        $selectedProvinsi = "";
-                                                        // Mengecek apakah provinsi saat ini sesuai dengan data mahasiswa
-                                                        if($dataMahasiswa['provinsi'] == $provinsi['id']){
+                                                        $selectedDepartemen = "";
+                                                        // Mengecek apakah departemen saat ini sesuai dengan data pegawai
+                                                        if($dataPegawai['departemen'] == $departemen['id_departemen']){
                                                             // Jika sesuai, tandai sebagai opsi yang dipilih
-                                                            $selectedProvinsi = "selected";
+                                                            $selectedDepartemen = "selected";
                                                         }
-                                                        // Menampilkan opsi provinsi dengan penanda yang sesuai
-                                                        echo '<option value="'.$provinsi['id'].'" '.$selectedProvinsi.'>'.$provinsi['nama'].'</option>';
+                                                        // Menampilkan opsi departemen dengan penanda yang sesuai
+                                                        echo '<option value="'.$departemen['id_departemen'].'" '.$selectedDepartemen.'>'.$departemen['nama_departemen'].'</option>';
                                                     }
                                                     ?>
                                                 </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="email" class="form-label">Email</label>
-                                                <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan Email Valid dan Benar" value="<?php echo $dataMahasiswa['email']; ?>" required>
+                                                <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan Email Valid dan Benar" value="<?php echo $dataPegawai['email']; ?>" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="telp" class="form-label">Nomor Telepon</label>
-                                                <input type="tel" class="form-control" id="telp" name="telp" placeholder="Masukkan Nomor Telpon/HP" value="<?php echo $dataMahasiswa['telp']; ?>" pattern="[0-9+\-\s()]{6,20}" required>
+                                                <input type="tel" class="form-control" id="telp" name="telp" placeholder="Masukkan Nomor Telpon/HP" value="<?php echo $dataPegawai['telp']; ?>" pattern="[0-9+\-\s()]{6,20}" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="status" class="form-label">Status</label>
                                                 <select class="form-select" id="status" name="status" required>
                                                     <option value="" selected disabled>Pilih Status</option>
                                                     <?php 
-                                                    // Iterasi daftar status mahasiswa dan menandai yang sesuai dengan data mahasiswa yang dipilih
+                                                    // Iterasi daftar status pegawai dan menandai yang sesuai dengan data pegawai yang dipilih
                                                     foreach ($statusList as $status){
                                                         // Menginisialisasi variabel kosong untuk menandai opsi yang dipilih
                                                         $selectedStatus = "";
-                                                        // Mengecek apakah status saat ini sesuai dengan data mahasiswa
-                                                        if($dataMahasiswa['status'] == $status['id']){
+                                                        // Mengecek apakah status saat ini sesuai dengan data pegawai
+                                                        if($dataPegawai['status'] == $status['id']){
                                                             // Jika sesuai, tandai sebagai opsi yang dipilih
                                                             $selectedStatus = "selected";
                                                         }
